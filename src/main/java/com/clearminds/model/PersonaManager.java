@@ -14,27 +14,26 @@ public class PersonaManager {
 	public PersonaManager()  {
 		super();
 		String propiedad;
-		Properties p = new Properties();
 		try {
-			p.load(new FileReader("C:\\Users\\dario\\Documents\\DATA\\Curso Java\\Fase2\\herencia\\config.properties"));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-			propiedad = p.getProperty("propiedad");
-		try {
+			propiedad = leerArchivo();
 			Class<?>clase = Class.forName(propiedad);
-			this.serv=(ServicioPersona)clase.newInstance();		
-		} catch (Exception e) {
-			throw new InstanceException("Error al obtener una instancia de ServicioPersona");
+			this.serv=(ServicioPersona)clase.newInstance();	
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			throw new InstanceException("Error al obtener una instancia de ServicioPersona");		
 		}
 	}
 	
 	public void insertarPersona(Persona p){
 		this.serv.insertar(p);
+	}
+	
+	public String leerArchivo() throws FileNotFoundException, IOException{
+		String propiedad;
+		Properties p = new Properties();
+		p.load(new FileReader("./config.properties"));
+		propiedad = p.getProperty("propiedad");
+		return propiedad;
 	}
 	
 }
